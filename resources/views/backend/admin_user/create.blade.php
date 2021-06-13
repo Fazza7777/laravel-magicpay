@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('title', 'Create Admin User ')
-@section('admin-user-create', 'mm-active')
+@section('admin-user-index', 'mm-active')
 @section('content')
     <div class="app-page-title">
         <div class="page-title-wrapper">

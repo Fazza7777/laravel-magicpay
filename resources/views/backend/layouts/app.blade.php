@@ -81,7 +81,12 @@
             title: '{{ session("create") }}'
         })
         @endif
-
+        @if(session('update'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session("update") }}'
+        })
+        @endif
     </script>
     @yield('scripts')
 

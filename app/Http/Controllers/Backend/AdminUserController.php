@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\AdminUser;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminUserRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Yajra\Datatables\Datatables;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\AdminUserRequest;
+use App\Http\Requests\AdminUserEditRequest;
+
 class AdminUserController extends Controller
 {
     public function index(){
@@ -26,9 +28,40 @@ class AdminUserController extends Controller
         return redirect()->back()->with('create','Create successfully!');
 
     }
+    public function edit(Request $request,$id){
+        $admin_user = AdminUser::findOrFail($id);
+        return view('backend.admin_user.edit',compact('admin_user')) ;
+    }
+    public function update(AdminUserEditRequest $request,$id){
+
+        $admin_user = AdminUser::findOrFail($id);
+        $admin_user->name = $request->name;
+        $admin_user->email = $request->email;
+        $admin_user->phone = $request->phone;
+        ##
+       //   $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
+        if($request->has('password')){
+            $admin_user->password = Hash::make($request->password);
+        }
+        $admin_user->update();
+        return redirect()->back()->with('update','Update successfully!');
+
+    }
     ## Datatable Ajax
     public function ssd(){
         $data = AdminUser::query();
-        return Datatables::of($data)->make(true);
+        ##edit
+        return Datatables::of($data)->addColumn('action',function($each){
+            $edit_icon = '<a href="'.route('admin.admin-user.edit',$each->id).'" class="text-success"><i class="fas fa-user-edit"></i></a>';
+            $delete_icon =  '<a href="'.route('admin.admin-user.destroy',$each->id).'" class="text-danger "><i class="fas fa-trash-alt"></i></a>';
+            return "<div class='action-icon'>".$edit_icon.$delete_icon."</div>";
+        })->make(true);
+        ## simple get data
+            //return Datatables::of($data)->make(true);
+
+        ## edit from database data to ui show
+            // return Datatables::of($data)->editColumn('name',function($each){
+            //     return $each->name.' -- ha ha';
+            // })->make(true);
     }
 }

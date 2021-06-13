@@ -27,7 +27,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
-
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,6 +54,9 @@
                 }, {
                     data: "phone",
                     name: "phone"
+                },{
+                    data: "action",
+                    name: "action"
                 }]
             });
         });

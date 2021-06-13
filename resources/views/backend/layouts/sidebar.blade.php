@@ -23,8 +23,7 @@
     </div>
     <div class="app-header__menu">
         <span>
-            <button type="button"
-                class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
                 <span class="btn-icon-wrapper">
                     <i class="fa fa-ellipsis-v fa-w-6"></i>
                 </span>
@@ -36,15 +35,19 @@
             <ul class="vertical-nav-menu">
                 <li class="app-sidebar__heading">Dashboards</li>
                 <li>
-                    <a  class="mm-active">
+                    <a href="{{ route('admin.home') }}" class="@yield('dashboard')">
                         <i class="metismenu-icon pe-7s-home"></i>
                         Dashboard
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </li>
 
+                </li>
+                <li>
+                    <a class="@yield('admin-user-index')" href="{{ route('admin.admin-user.index') }}">
+                        <i class="metismenu-icon pe-7s-user"></i>
+                        Admin Managment
+                    </a>
+
+                </li>
             </ul>
         </div>
     </div>

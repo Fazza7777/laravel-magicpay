@@ -62,6 +62,9 @@
                             <div class="widget-heading">
                                 {{ auth()->guard('admin_user')->user()->name }}
                             </div>
+                            <div class="widget-subheading">
+                                {{ auth()->guard('admin_user')->user()->phone }}
+                            </div>
 
                         </div>
 

@@ -14,7 +14,9 @@
     <link href="{{ asset('backend/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css'>
     <link rel='stylesheet' href='https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css'>
-@yield('css')
+    <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    @yield('css')
 </head>
 
 <body>
@@ -39,14 +41,50 @@
                     </div>
                 </div>
             </div>
-            <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('backend/js/main.js') }}"></script>
     <script src='https://code.jquery.com/jquery-3.5.1.js'></script>
+    <script type="text/javascript" src="{{ asset('backend/js/main.js') }}"></script>
+
     <script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
+    {{-- Toastr cdn --}}
     <script src='https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js'></script>
-@yield('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+    {{-- sweat alert 2 --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('share.flash_message')
+    <script>
+        $(document).ready(function() {
+            $('.back-btn').on('click', function() {
+                window.history.go(-1)
+                return false
+            })
+        })
+        //   Sweat Alert
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        @if(session('create'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session("create") }}'
+        })
+        @endif
+
+    </script>
+    @yield('scripts')
+
 </body>
 
 </html>

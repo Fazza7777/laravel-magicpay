@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Backend;
 
 use App\User;
+use Exception;
+use App\Wallet;
 use Carbon\Carbon;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\UserStoreRequest;
-use App\Http\Requests\UserUpdateRequest;
-use App\Http\Requests\AdminUserEditRequest;
 
 class UserController extends Controller
 {
@@ -27,12 +27,32 @@ class UserController extends Controller
     }
     public function store(UserStoreRequest $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->password = Hash::make($request->password);
+            $user->save();
+            ## create user wallet account
+            // $check = Wallet::where('user_id',$user->id)->first();
+            // if($check){
+
+            // }
+            ## use  firstOrCreate is ready made above method is mean => in the wallet table one user one account
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $user->id], // check
+                [
+                    'account_number' => '1234567890',
+                    'amount' => 0
+                ]
+            );
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->with('warning','Something wrong');
+        }
+        DB::commit();
         return redirect()->back()->with('create', 'Create successfully!');
     }
     public function edit(Request $request, $id)

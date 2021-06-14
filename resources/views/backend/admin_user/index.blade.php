@@ -28,6 +28,8 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th>IP</th>
+                            <th>USER AGENT</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -42,23 +44,34 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-        var dataTable = $('.Datatable').DataTable({
+            var dataTable = $('.Datatable').DataTable({
                 "processing": true,
                 "serverSide": true,
                 "ajax": "/admin/admin-user/datatable/ssd",
                 columns: [{
-                    data: "name",
-                    name: "name"
-                }, {
-                    data: "email",
-                    name: "email"
-                }, {
-                    data: "phone",
-                    name: "phone"
-                }, {
-                    data: "action",
-                    name: "action"
-                }]
+                        data: "name",
+                        name: "name"
+                    }, {
+                        data: "email",
+                        name: "email"
+                    }, {
+                        data: "phone",
+                        name: "phone"
+                    },
+                    {
+                        data: "ip",
+                        name: "ip"
+                    },
+                    {
+                        data: "user_agent",
+                        name: "user_agent"
+                    },
+                    {
+
+                        data: "action",
+                        name: "action"
+                    }
+                ]
             });
             // ###########
             //this is first select parent (document) and select delete class
@@ -67,29 +80,29 @@
                 var id = $(this).data('id')
                 let token = document.head.querySelector("meta[name='csrf-token']")
                 console.log(token.content)
-                if(token){
+                if (token) {
                     $.ajaxSetup({
-                        headers : {
-                            'X-CSRF_TOKEN' : token.content
+                        headers: {
+                            'X-CSRF_TOKEN': token.content
                         }
                     })
                 }
                 // Sweat alert
                 Swal.fire({
-                    title:'Account Delete',
+                    title: 'Account Delete',
                     text: 'Are you sure, you want to delete?',
                     showCancelButton: true,
                     confirmButtonText: `Confirm`,
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                       $.ajax({
-                           url:'/admin/admin-user/'+id,
-                           type:'DELETE',
-                           success:function(){
-                               dataTable.ajax.reload()
-                           }
-                       })
+                        $.ajax({
+                            url: '/admin/admin-user/' + id,
+                            type: 'DELETE',
+                            success: function() {
+                                dataTable.ajax.reload()
+                            }
+                        })
                     }
                 })
             })

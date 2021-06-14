@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\UUIDGenerate;
 use App\User;
 use Exception;
 use App\Wallet;
@@ -41,16 +42,16 @@ class UserController extends Controller
 
             // }
             ## use  firstOrCreate is ready made above method is mean => in the wallet table one user one account
-            $wallet = Wallet::firstOrCreate(
+            Wallet::firstOrCreate(
                 ['user_id' => $user->id], // check
                 [
-                    'account_number' => '1234567890',
+                    'account_number' => UUIDGenerate::accountNumber(),
                     'amount' => 0
                 ]
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('warning','Something wrong');
+            return back()->with('warning', 'Something wrong');
         }
         DB::commit();
         return redirect()->back()->with('create', 'Create successfully!');
@@ -62,17 +63,33 @@ class UserController extends Controller
     }
     public function update(UserEditRequest $request, $id)
     {
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            ##
+            //   $user->password = $request->password ? Hash::make($request->password) : $user->password;
+            if ($request->has('password')) {
+                $user->password = Hash::make($request->password);
+            }
+            $user->update();
 
-        $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        ##
-        //   $user->password = $request->password ? Hash::make($request->password) : $user->password;
-        if ($request->has('password')) {
-            $user->password = Hash::make($request->password);
+            ## Check cover up if user account has but no wallet account , it create wallet account if user account update do
+            Wallet::firstOrCreate(
+                ['user_id' => $user->id], // check wallet acc exist in wallet table this user id
+                [
+                    'account_number' => UUIDGenerate::accountNumber(),
+                     'amount' => 0
+                ]
+            );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('warning', 'Something wrong');
         }
-        $user->update();
+        DB::commit();
+
         return redirect()->back()->with('update', 'Update successfully!');
     }
     public function destroy($id)

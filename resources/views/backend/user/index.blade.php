@@ -30,6 +30,7 @@
                             <th>Phone</th>
                             <th>IP</th>
                             <th>USER AGENT</th>
+                            <th>Login At</th>
                             <th>Created_At</th>
                             <th>Update_At</th>
                             <th class="no-sort text-nowrap">Action</th>
@@ -70,6 +71,10 @@
                         name: "user_agent",
                         sortable: false, // no sort feature
                         searchable: false, //This is no search in datable
+                    },
+                    {
+                        data: "login_at",
+                        name: "login_at"
                     },
                     {
                         data: "created_at",

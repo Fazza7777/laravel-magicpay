@@ -10,8 +10,10 @@ use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\AdminUserEditRequest;
+use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\AdminUserEditRequest;
 
 class UserController extends Controller
 {
@@ -38,7 +40,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return view('backend.user.edit', compact('user'));
     }
-    public function update(AdminUserEditRequest $request, $id)
+    public function update(UserEditRequest $request, $id)
     {
 
         $user = User::findOrFail($id);
@@ -99,7 +101,7 @@ class UserController extends Controller
                 }
             })
             ->addColumn('action', function ($each) {
-                $edit_icon = '<a href="' . route('admin.admin-user.edit', $each->id) . '" class="text-success"><i class="fas fa-user-edit"></i></a>';
+                $edit_icon = '<a href="' . route('admin.user.edit', $each->id) . '" class="text-success"><i class="fas fa-user-edit"></i></a>';
                 $delete_icon =  '<a href="#" data-id="' . $each->id . '" class="text-danger delete"><i class="fas fa-trash-alt"></i></a>';
                 return "<div class='action-icon'>" . $edit_icon . $delete_icon . "</div>";
             })

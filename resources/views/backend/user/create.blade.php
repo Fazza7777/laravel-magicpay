@@ -58,7 +58,7 @@
     </div>
 @endsection
 @section('scripts')
-{!! JsValidator::formRequest('App\Http\Requests\AdminUserRequest') !!}
+{!! JsValidator::formRequest('App\Http\Requests\UserStoreRequest') !!}
 
 {{-- if you have many form in this page can use below --}}
 {{-- {!! JsValidator::formRequest('App\Http\Requests\AdminUserRequest','#create') !!} --}}

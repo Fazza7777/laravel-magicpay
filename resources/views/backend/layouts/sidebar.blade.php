@@ -48,6 +48,13 @@
                     </a>
 
                 </li>
+                <li>
+                    <a class="@yield('user-index')" href="{{ route('admin.user.index') }}">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                         Users
+                    </a>
+
+                </li>
             </ul>
         </div>
     </div>

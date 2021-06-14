@@ -47,13 +47,18 @@ class AdminUserController extends Controller
         return redirect()->back()->with('update','Update successfully!');
 
     }
+    public function destroy($id){
+        $admin_user = AdminUser::findOrFail($id);
+        $admin_user->delete();
+        return 'success';
+    }
     ## Datatable Ajax
     public function ssd(){
         $data = AdminUser::query();
         ##edit
         return Datatables::of($data)->addColumn('action',function($each){
             $edit_icon = '<a href="'.route('admin.admin-user.edit',$each->id).'" class="text-success"><i class="fas fa-user-edit"></i></a>';
-            $delete_icon =  '<a href="'.route('admin.admin-user.destroy',$each->id).'" class="text-danger "><i class="fas fa-trash-alt"></i></a>';
+            $delete_icon =  '<a href="#" data-id="'.$each->id.'" class="text-danger delete"><i class="fas fa-trash-alt"></i></a>';
             return "<div class='action-icon'>".$edit_icon.$delete_icon."</div>";
         })->make(true);
         ## simple get data

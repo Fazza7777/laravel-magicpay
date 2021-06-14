@@ -105,10 +105,10 @@ class UserController extends Controller
         ##edit
         return Datatables::of($data)
             ->editColumn('created_at', function ($each) {
-                return Carbon::parse($each->created_at)->format('Y-m-d h:m:s');
+                return Carbon::parse($each->created_at)->format('Y-m-d H:m:s');
             })
             ->editColumn('updated_at', function ($each) {
-                return Carbon::parse($each->updated_at)->format('Y-m-d h:m:s');
+                return Carbon::parse($each->updated_at)->format('Y-m-d H:m:s');
             })
             ->editColumn('user_agent', function ($each) {
                 $agent = new Agent();

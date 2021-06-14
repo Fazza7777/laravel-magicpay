@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="pt-3">
+    <div class="py-3">
         <a href="{{ route('admin.admin-user.create') }}" class="btn btn-primary "><i class="fas fa-plus-circle"></i>
             Create Admin User</a>
 
@@ -87,7 +87,7 @@
 
                     }
                 ],
-                // order 
+                // order
                 order: [[6, "desc" ]],
                 // you can use dataTable column Defination
                 columnDefs: [

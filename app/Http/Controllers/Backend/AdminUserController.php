@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\AdminUserEditRequest;
+use Carbon\Carbon;
 
 class AdminUserController extends Controller
 {
@@ -63,6 +64,12 @@ class AdminUserController extends Controller
         $data = AdminUser::query();
         ##edit
         return Datatables::of($data)
+            ->editColumn('created_at', function ($each) {
+                return Carbon::parse($each->created_at)->format('Y-m-d h:m:s');
+            })
+            ->editColumn('updated_at', function ($each) {
+                return Carbon::parse($each->updated_at)->format('Y-m-d h:m:s');
+            })
             ->editColumn('user_agent', function ($each) {
                 $agent = new Agent();
                 $agent->setUserAgent($each->user_agent);

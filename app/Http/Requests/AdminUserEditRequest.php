@@ -27,7 +27,7 @@ class AdminUserEditRequest extends FormRequest
         return [
             'name' => 'required|min:3',
             'email' => 'required|email|unique:admin_users,email,'.$id.'id',
-            'phone' => 'required|unique:admin_users,phone,'.auth()->user()->id.'id',
+            'phone' => 'required|unique:admin_users,phone,'.$id.'id',
             'password' => 'nullable|min:6',
         ];
     }

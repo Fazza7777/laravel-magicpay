@@ -30,7 +30,9 @@
                             <th>Phone</th>
                             <th>IP</th>
                             <th>USER AGENT</th>
-                            <th>Action</th>
+                            <th>Created_At</th>
+                            <th>Update_At</th>
+                            <th class="no-sort text-nowrap">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,10 +52,11 @@
                 "ajax": "/admin/admin-user/datatable/ssd",
                 columns: [{
                         data: "name",
-                        name: "name"
+                        name: "name",
                     }, {
                         data: "email",
-                        name: "email"
+                        name: "email",
+
                     }, {
                         data: "phone",
                         name: "phone"
@@ -64,12 +67,34 @@
                     },
                     {
                         data: "user_agent",
-                        name: "user_agent"
+                        name: "user_agent",
+                        sortable: false, // no sort feature
+                        searchable: false, //This is no search in datable
+                    },
+                    {
+                        data: "created_at",
+                        name: "created_at"
+                    },
+                    {
+                        data: "updated_at",
+                        name: "updated_at"
                     },
                     {
 
                         data: "action",
-                        name: "action"
+                        name: "action",
+                        searchable: false, //This is no search in datable
+
+                    }
+                ],
+                // order 
+                order: [[6, "desc" ]],
+                // you can use dataTable column Defination
+                columnDefs: [
+                    {
+                       // targets: [0, 1], // this is define index
+                        targets: 'no-sort', // this is class name
+                        sortable: false,
                     }
                 ]
             });

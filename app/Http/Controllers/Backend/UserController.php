@@ -7,12 +7,11 @@ use Carbon\Carbon;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserEditRequest;
-use App\Http\Requests\AdminUserRequest;
 use App\Http\Requests\AdminUserEditRequest;
+use App\Http\Requests\UserStoreRequest;
 
 class UserController extends Controller
 {
@@ -24,40 +23,40 @@ class UserController extends Controller
     {
         return view('backend.user.create');
     }
-    public function store(AdminUserRequest $request)
+    public function store(UserStoreRequest $request)
     {
-        $admin_user = new User();
-        $admin_user->name = $request->name;
-        $admin_user->email = $request->email;
-        $admin_user->phone = $request->phone;
-        $admin_user->password = Hash::make($request->password);
-        $admin_user->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = Hash::make($request->password);
+        $user->save();
         return redirect()->back()->with('create', 'Create successfully!');
     }
     public function edit(Request $request, $id)
     {
-        $admin_user = User::findOrFail($id);
-        return view('backend.user.edit', compact('admin_user'));
+        $user = User::findOrFail($id);
+        return view('backend.user.edit', compact('user'));
     }
     public function update(AdminUserEditRequest $request, $id)
     {
 
-        $admin_user = User::findOrFail($id);
-        $admin_user->name = $request->name;
-        $admin_user->email = $request->email;
-        $admin_user->phone = $request->phone;
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
         ##
-        //   $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
+        //   $user->password = $request->password ? Hash::make($request->password) : $user->password;
         if ($request->has('password')) {
-            $admin_user->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
-        $admin_user->update();
+        $user->update();
         return redirect()->back()->with('update', 'Update successfully!');
     }
     public function destroy($id)
     {
-        $admin_user = User::findOrFail($id);
-        $admin_user->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
         return 'success';
     }
     ## Datatable Ajax

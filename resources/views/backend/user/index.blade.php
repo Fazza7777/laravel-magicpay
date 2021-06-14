@@ -16,7 +16,7 @@
     </div>
     <div class="pt-3">
         <a href="{{ route('admin.user.create') }}" class="btn btn-primary "><i class="fas fa-plus-circle"></i>
-            Create  User</a>
+            Create User</a>
 
     </div>
     <div class="content pt-3">

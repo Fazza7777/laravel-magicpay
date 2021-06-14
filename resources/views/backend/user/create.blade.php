@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
-@section('title', 'Create Admin User ')
-@section('admin-user-index', 'mm-active')
+@section('title', 'Create  User ')
+@section('user-index', 'mm-active')
 @section('content')
     <div class="app-page-title">
         <div class="page-title-wrapper">
@@ -9,7 +9,7 @@
                     <i class="pe-7s-users icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>Create Admin User </div>
+                <div>Create  User </div>
 
             </div>
         </div>
@@ -18,7 +18,7 @@
     <div class="content pt-3">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.admin-user.store') }}" method="POST" id='create'>
+                <form action="{{ route('admin.user.store') }}" method="POST" id='create'>
                     @csrf
                     <div class="form-group">
                         <label for="">Name</label>

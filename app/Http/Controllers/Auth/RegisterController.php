@@ -80,6 +80,7 @@ class RegisterController extends Controller
         $user->user_agent = $request->server('HTTP_USER_AGENT');
         $user->login_at = date('Y-m-d H:i:s');
         $user->update();
+        
         return redirect($this->redirectTo);
     }
 }

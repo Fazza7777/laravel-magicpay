@@ -149,9 +149,24 @@ a:hover{
       display: flex !important;
       justify-content: center;
       align-items: center;
+      animation: glow 5s infinite;
   }
   .scan-tab .inside i{
       margin: 0;
+  }
+  @keyframes glow {
+     0%{
+         box-shadow: 0 0 -10px #5842E3;
+     }
+     40%{
+        box-shadow: 0 0 15px #5842E3;
+    }
+    60%{
+        box-shadow: 0 0 15px #5842E3;
+    }
+    100%{
+        box-shadow: 0 0 -10px #5842E3;
+    }
   }
 /* *********************** Main Content *******************************/
 .content{

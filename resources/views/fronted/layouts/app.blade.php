@@ -25,21 +25,21 @@
 <body>
     <div id="app">
         <div class="header-menu">
-            <div class="row justify-content-center no-gutters">
+            <div class="justify-content-center d-flex">
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-4 text-center">
+                        <div class=" col-2 text-center">
                             @if (!request()->is('/'))
                                 <a href="#" class="back"><i class="fas fa-angle-left"></i></a>
                             @endif
 
                         </div>
-                        <div class="col-4 text-center">
+                        <div class=" col-8  text-center">
                             <a href="">
                                 <h3>@yield('title')</h3>
                             </a>
                         </div>
-                        <div class="col-4 text-center">
+                        <div class=" col-2 text-center">
                             <a href="">
                                 <i class="fa fa-bell"></i>
 
@@ -51,7 +51,7 @@
         </div>
 
         <div class="content">
-            <div class="row justify-content-center no-gutters">
+            <div class=" justify-content-center d-flex">
                 <div class="col-md-8 col-12">
                     @yield('content')
 
@@ -60,25 +60,36 @@
         </div>
 
         <div class="botton-menu">
-            <div class="row justify-content-center">
+            <a href="" class="scan-tab">
+                <div class="inside">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+            </a>
+            <div class="d-flex justify-content-center">
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-4 text-center">
+                        <div class="col-3 text-center">
                             <a href="{{ route('home') }}" class="@yield('home')">
                                 <i class="fas fa-home"></i>
                                 <p class="mb-0"> Home</p>
                             </a>
                         </div>
-                        <div class="col-4 text-center">
+                        <div class="col-3 text-center">
                             <a href="">
-                                <i class="fas fa-qrcode"></i>
-                                <p class="mb-0"> Scan</p>
+                                <i class="fas fa-wallet"></i>
+                                <p class="mb-0"> Wallet</p>
                             </a>
                         </div>
-                        <div class="col-4 text-center">
+                        <div class="col-3 text-center">
+                            <a href="">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p class="mb-0"> Transaction</p>
+                            </a>
+                        </div>
+                        <div class="col-3 text-center">
                             <a href="{{ route('profile') }}" class="@yield('profile')">
-                                <i class="fa fa-user"></i>
-                                <p class="mb-0"> Account</p>
+                                <i class="fas fa-user-circle"></i>
+                                <p class="mb-0"> Profile</p>
                             </a>
                         </div>
                     </div>

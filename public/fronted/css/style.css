@@ -66,8 +66,8 @@ a:hover{
     left: 0;
     right: 0;
     z-index: 1000;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
 }
 .header-menu a{
    text-decoration: none;
@@ -109,7 +109,7 @@ a:hover{
  }
 
 .botton-menu i{
-   font-size: 20px;
+   font-size: 18px;
    margin-top: 12px;
 }
 .botton-menu p{
@@ -126,6 +126,32 @@ a:hover{
 
     color:#5842E3;
     transition: .3s;
+  }
+  .scan-tab{
+      width: 65px;
+      height: 65px;
+      border-radius:100%;
+      background-color: #EDEDF5;
+      position: fixed;
+      bottom: 40px;
+      right: 0;
+      left: 0;
+      margin:0 auto;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+  }
+  .scan-tab .inside{
+      width: 52px;
+      height: 52px;
+      border-radius: 100%;
+      background-color: #fff;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+  }
+  .scan-tab .inside i{
+      margin: 0;
   }
 /* *********************** Main Content *******************************/
 .content{

@@ -18,6 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('fronted/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
     @yield('extra_css')
 </head>
 
@@ -82,12 +83,17 @@
             </div>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- sweat alert 2 --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @include('share.flash_message')
+
     <script>
+
         $(document).ready(function(){
             let token = document.head.querySelector("meta[name='csrf-token']")
         if (token) {
@@ -101,7 +107,31 @@
             })
         }
         })
-
+//   Sweat Alert Toast
+ //   Sweat Alert
+ const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        @if(session('create'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session("create") }}'
+        })
+        @endif
+        @if(session('update'))
+        Toast.fire({
+            icon: 'success',
+            title: '{{ session("update") }}'
+        })
+        @endif
     </script>
     @yield('scripts')
 </body>

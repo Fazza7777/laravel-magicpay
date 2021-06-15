@@ -10,11 +10,14 @@
     <title>@yield('title')</title>
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 <link rel="stylesheet" href="{{ asset('fronted/css/style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 @yield('extra_css')
 </head>
 <body>
    @yield('content')
+   @include('share.flash_message')
    <script src="{{ asset('js/app.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
    @yield('scripts')
 </body>
 </html>

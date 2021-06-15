@@ -39,23 +39,23 @@
         </div>
         <div class="card mb-3">
             <div class="card-body pr-0">
-                <div class="d-flex justify-content-between">
+                <a href="{{ route('update.password') }}" class="d-flex justify-content-between ">
                     <span>
                         Update Password
                     </span>
                     <span class="mr-3">
                         <i class="fa fa-angle-right"></i>
                     </span>
-                </div>
+                </a>
                 <hr>
-                <div class="d-flex justify-content-between logout">
+                <a href="#" class="d-flex justify-content-between logout">
                     <span>
                         Logout
                     </span>
                     <span class="mr-3">
                         <i class="fa fa-angle-right"></i>
                     </span>
-                </div>
+                </a>
 
             </div>
         </div>

@@ -17,6 +17,8 @@ Route::middleware('auth')->namespace('Fronted')->group(function(){
 
     Route::get('/', 'PageController@home')->name('home');
     Route::get('/profile', 'PageController@profile')->name('profile');
+    Route::get('/update-password', 'PageController@updatePassword')->name('update.password');
+    Route::post('/update-password', 'PageController@updatePasswordStore')->name('update.password.store');
 
 });
 

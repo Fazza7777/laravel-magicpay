@@ -177,12 +177,12 @@ a:hover{
 .account{
 
 }
-.account .profile {
+ .profile {
     text-align: center;
   }
-.account .profile img{
-    width: 100px;
-    height: 100px;
+ .profile img{
+    width: 80px;
+    height: 80px;
     padding:5px;
     border:1px solid #ddd;
     background-color: #fff;
@@ -195,4 +195,44 @@ a:hover{
     margin:0;
     padding:0;
 
+}
+/************************ Wallet*********************** */
+.wallet{
+
+}
+.wallet .wallet-card{
+    background-color: #5842E3;
+    color: #fff;
+}
+.wallet .wallet-card span{
+    text-transform: uppercase;
+    font-size: 12px;
+    display: inline-block;
+   margin-bottom:5px ;
+   color:#EDEDF5;
+}
+.wallet .wallet-card h4{
+font-size: 22px;
+font-weight: 900;
+}
+.wallet .wallet-card h5{
+    font-size: 18px;
+    font-weight: 900;
+}
+.wallet .wallet-card p{
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+
+}
+/*********************** home page ********************/
+.home-card img{
+    width: 25px;
+    height: 25px;
+    margin-right:8px;
+}
+.home-service img{
+    width: 28px;
+    height: 28px;
+    margin-right:15px;
 }

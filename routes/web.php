@@ -19,6 +19,12 @@ Route::middleware('auth')->namespace('Fronted')->group(function(){
     Route::get('/profile', 'PageController@profile')->name('profile');
     Route::get('/update-password', 'PageController@updatePassword')->name('update.password');
     Route::post('/update-password', 'PageController@updatePasswordStore')->name('update.password.store');
+    Route::get('/wallet', 'PageController@wallet')->name('wallet');
+    Route::get('/transfer','PageController@transfer')->name('transfer');
+    Route::post('/transfer/confirm','PageController@transferConfirm')->name('transfer.confirm');
+    Route::post('/transfer/complete','PageController@transferComplete')->name('transfer.complete');
 
+    Route::get('/to-account-verify','PageController@toaccountVerify');
+    Route::get('/transfer/confirm/check-password','PageController@checkPassword')->name('check.password');
 });
 

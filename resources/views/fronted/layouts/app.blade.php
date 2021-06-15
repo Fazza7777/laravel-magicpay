@@ -74,14 +74,14 @@
                                 <p class="mb-0"> Home</p>
                             </a>
                         </div>
-                        <div class="col-3 text-center">
-                            <a href="">
+                        <div class="col-3 text-center ">
+                            <a href="{{ route('wallet') }}" class="@yield('wallet')">
                                 <i class="fas fa-wallet"></i>
                                 <p class="mb-0"> Wallet</p>
                             </a>
                         </div>
-                        <div class="col-3 text-center">
-                            <a href="">
+                        <div class="col-3 text-center ">
+                            <a href="" class="@yield('transaction')">
                                 <i class="fas fa-exchange-alt"></i>
                                 <p class="mb-0"> Transaction</p>
                             </a>

@@ -5,7 +5,7 @@ body{
     font-family: 'Open Sans', sans-serif;
 }
 .btn{
-    padding: 10px !important;
+    padding: 10px 25px !important;
 }
 .btn-theme{
     background-color: #5842E3 ;
@@ -16,6 +16,19 @@ body{
 }
 .botton-menu .active{
    color: #5842E3 !important;
+}
+.swal2-popup {
+    border-radius: 10px !important;
+}
+.swal2-title {
+    font-size: 18px !important;
+}
+.swal2-styled {
+    border-radius: 10px !important;
+    padding:10px 25px !important;
+}
+.swal2-styled.swal2-confirm {
+    background-color: #5842E3 !important;
 }
 /* ******************* Auth Form ***************************************/
 .auth-form
@@ -124,4 +137,7 @@ body{
 {
     border-radius: 10px;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,0.09);
+}
+.logout{
+    cursor: pointer;
 }

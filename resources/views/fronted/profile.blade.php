@@ -4,7 +4,7 @@
 @section('profile', 'active')
     <div class="account">
         <div class="profile mb-3">
-            <img src="https://ui-avatars.com/api/?background=5842E3&color=fff&name=PyaePhyoeNaing" alt="">
+            <img src="https://ui-avatars.com/api/?background=5842E3&color=fff&name={{ $user->name }}" alt="">
         </div>
         <div class="card mb-3">
             <div class="card-body pr-0">
@@ -31,7 +31,7 @@
                         Email
                     </span>
                     <span class="mr-3">
-                       {{ $user->email }}
+                        {{ $user->email }}
                     </span>
                 </div>
 
@@ -48,12 +48,12 @@
                     </span>
                 </div>
                 <hr>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between logout">
                     <span>
                         Logout
                     </span>
                     <span class="mr-3">
-                        <i class="fa fa-sign-out-alt"></i>
+                        <i class="fa fa-angle-right"></i>
                     </span>
                 </div>
 
@@ -61,3 +61,32 @@
         </div>
     </div>
 @endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.logout', function(e) {
+                e.preventDefault()
+
+                // Sweat alert
+                Swal.fire({
+                    title: 'Are you sure,  want to logout?',
+                    showCancelButton: true,
+                    reverseButtons:true,
+                    confirmButtonText: `Confirm`,
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route("logout") }}',
+                            type: 'POST',
+                            success: function() {
+                               window.location.replace('/login')
+                            }
+                        })
+                    }
+                })
+            })
+        })
+
+    </script>
+@stop

@@ -82,9 +82,27 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- sweat alert 2 --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function(){
+            let token = document.head.querySelector("meta[name='csrf-token']")
+        if (token) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF_TOKEN': token.content,
+                    'Content-Type':'application/json',
+                    'Accept':'application/json',
+
+                }
+            })
+        }
+        })
+
+    </script>
     @yield('scripts')
 </body>
 

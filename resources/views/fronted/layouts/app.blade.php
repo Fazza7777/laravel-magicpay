@@ -29,6 +29,9 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-4 text-center">
+                            @if (!request()->is('/'))
+                                <a href="#" class="back"><i class="fas fa-angle-left"></i></a>
+                            @endif
 
                         </div>
                         <div class="col-4 text-center">
@@ -93,23 +96,29 @@
     @include('share.flash_message')
 
     <script>
-
-        $(document).ready(function(){
+        $(document).ready(function() {
             let token = document.head.querySelector("meta[name='csrf-token']")
-        if (token) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF_TOKEN': token.content,
-                    'Content-Type':'application/json',
-                    'Accept':'application/json',
+            if (token) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF_TOKEN': token.content,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
 
-                }
+                    }
+                })
+            }
+
+            // Back
+            $('.back').on('click', function(e) {
+                e.preventDefault();
+                window.history.go(-1)
+                // window.history.back();
             })
-        }
         })
-//   Sweat Alert Toast
- //   Sweat Alert
- const Toast = Swal.mixin({
+        //   Sweat Alert Toast
+        //   Sweat Alert
+        const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
@@ -120,18 +129,19 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
         })
-        @if(session('create'))
-        Toast.fire({
+        @if (session('create'))
+            Toast.fire({
             icon: 'success',
-            title: '{{ session("create") }}'
-        })
+            title: '{{ session('create') }}'
+            })
         @endif
-        @if(session('update'))
-        Toast.fire({
+        @if (session('update'))
+            Toast.fire({
             icon: 'success',
-            title: '{{ session("update") }}'
-        })
+            title: '{{ session('update') }}'
+            })
         @endif
+
     </script>
     @yield('scripts')
 </body>

@@ -13,8 +13,10 @@ Route::post('/admin/logout', 'Auth\AdminLoginController@logout')->name('admin.lo
 
 ## User Auth
 Auth::routes();
-Route::middleware('auth')->group(function(){
-    Route::get('/', 'Fronted\PageController@home');
+Route::middleware('auth')->namespace('Fronted')->group(function(){
+
+    Route::get('/', 'PageController@home')->name('home');
+    Route::get('/profile', 'PageController@profile')->name('profile');
 
 });
 

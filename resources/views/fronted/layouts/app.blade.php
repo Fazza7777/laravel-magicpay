@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('fronted/css/style.css') }}">
@@ -106,6 +106,9 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- JScroll --}}
     <script src="{{ asset('fronted/js/jscroll.js') }}"></script>
+    {{-- Date Range Picker --}}
+    <script  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     @include('share.flash_message')
 
     <script>

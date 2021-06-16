@@ -3,20 +3,19 @@
 @section('content')
 @section('transaction', 'active')
     <div class="transaction">
-        <div class="card mb-2 pb-0">
+        <div class="card mb-3 pb-0">
             <div class="card-body p-2">
+                <h6 >
+                    <i class="fa fa-filter"></i>
+                    Filter
+                </h6>
                 <div class="row">
                     <div class="col-6">
                         <div class="input-group my-2">
                             <div class="input-group-prepend">
-                                <label class="input-group-text p-1">Type</label>
+                                <label class="input-group-text p-1">Date</label>
                             </div>
-                            <select class="custom-select">
-                                <option value="">All</option>
-                                <option value="1">Income</option>
-                                <option value="2">Expense</option>
-
-                            </select>
+                            <input type="text" class="form-control date" value="{{ request()->date ?? date('Y-m-d') }}">
                         </div>
                     </div>
                     <div class="col-6">
@@ -26,8 +25,8 @@
                             </div>
                             <select class="custom-select type">
                                 <option value="">All</option>
-                                <option value="1" @if(request()->type== 1) selected @endif>Income</option>
-                                <option value="2" @if(request()->type== 2) selected @endif>Expense</option>
+                                <option value="1" @if (request()->type == 1) selected @endif>Income</option>
+                                <option value="2" @if (request()->type == 2) selected @endif>Expense</option>
 
                             </select>
                         </div>
@@ -36,6 +35,7 @@
 
             </div>
         </div>
+        <h6>Transactions</h6>
         <div class="infinite-scroll">
             @foreach ($transactions as $transaction)
                 <a href="{{ url("/transaction/$transaction->trx_id") }}">
@@ -74,12 +74,27 @@
 @endsection
 @section('scripts')
     <script>
-        $('.type').on('change',function(){
+        $('.type').on('change', function() {
             var type = $('.type').val()
-            history.pushState(null, '' ,`/transaction?type=${type}`)
+            history.pushState(null, '', `?type=${type}`)
             window.location.reload()
         })
-        //jscroll
+        //Date Range Picker
+        $('.date').daterangepicker({
+            "singleDatePicker": true,
+            "autoApply": true,
+            "locale": {
+                "format": "YYYY-MM-DD",
+            },
+        });
+
+        $('.date').on('apply.daterangepicker', function(ev, picker) {
+            var date = $('.date').val()
+            var type = $('.type').val()
+            history.pushState(null, '', `?date=${date}&type=${type}`)
+            window.location.reload()
+        });
+        //###############jscroll################################
         $('ul.pagination').hide();
         $('.infinite-scroll').jscroll({
             autoTrigger: true,

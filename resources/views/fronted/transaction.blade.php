@@ -3,6 +3,39 @@
 @section('content')
 @section('transaction', 'active')
     <div class="transaction">
+        <div class="card mb-2 pb-0">
+            <div class="card-body p-2">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="input-group my-2">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text p-1">Type</label>
+                            </div>
+                            <select class="custom-select">
+                                <option value="">All</option>
+                                <option value="1">Income</option>
+                                <option value="2">Expense</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group my-2">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text p-1">Type</label>
+                            </div>
+                            <select class="custom-select type">
+                                <option value="">All</option>
+                                <option value="1" @if(request()->type== 1) selected @endif>Income</option>
+                                <option value="2" @if(request()->type== 2) selected @endif>Expense</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div class="infinite-scroll">
             @foreach ($transactions as $transaction)
                 <a href="{{ url("/transaction/$transaction->trx_id") }}">
@@ -40,8 +73,14 @@
     </div>
 @endsection
 @section('scripts')
-<script>
- $('ul.pagination').hide();
+    <script>
+        $('.type').on('change',function(){
+            var type = $('.type').val()
+            history.pushState(null, '' ,`/transaction?type=${type}`)
+            window.location.reload()
+        })
+        //jscroll
+        $('ul.pagination').hide();
         $('.infinite-scroll').jscroll({
             autoTrigger: true,
             loadingHtml: '<div class="text-center"><img src="{{ asset('img/loading.png') }}" alt="Loading..." style="width:30px;"/></div>',
@@ -53,6 +92,5 @@
             }
         });
 
-
-</script>
+    </script>
 @endsection

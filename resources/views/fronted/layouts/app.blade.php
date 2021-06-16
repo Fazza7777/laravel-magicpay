@@ -81,7 +81,7 @@
                             </a>
                         </div>
                         <div class="col-3 text-center ">
-                            <a href="" class="@yield('transaction')">
+                            <a href="{{ url('/transaction') }}" class="@yield('transaction')">
                                 <i class="fas fa-exchange-alt"></i>
                                 <p class="mb-0"> Transaction</p>
                             </a>

@@ -42,7 +42,7 @@
                             </span>
                         </a>
                         <hr>
-                        <a href="#" class="d-flex justify-content-between logout">
+                        <a href="{{ route('wallet') }}" class="d-flex justify-content-between logout">
                             <span>
                                 <img src="{{ asset('img/wallet.png') }}" alt="">
                                 Wallet
@@ -52,7 +52,7 @@
                             </span>
                         </a>
                         <hr>
-                        <a href="#" class="d-flex justify-content-between logout">
+                        <a href="{{ url('/transaction') }}" class="d-flex justify-content-between logout">
                             <span>
                                 <img src="{{ asset('img/transaction.png') }}" alt="">
                                 Transaction

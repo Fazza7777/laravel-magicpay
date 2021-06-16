@@ -136,11 +136,27 @@ class PageController extends Controller
             DB::commit();
             return redirect('/')->with('success', 'Payment succeful');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error',$e->getMessage());
+            return redirect()->back()->with('error', $e->getMessage());
             DB::rollBack();
         }
+    }
+    ## Transaction
+    public function transaction()
+    {
+        $authUser = auth()->guard('web')->user();
+        $transactions = Transaction::with('user','source')
+                        ->orderBy('created_at','desc')
+                        ->where('user_id', $authUser->id)->paginate(5);
+        return view('fronted.transaction',compact('transactions'));
+    }
+    public function transactionDetail($trx_id)
+    {
+        $authUser = auth()->guard('web')->user();
+        $transaction = Transaction::with('user','source')->where('user_id', $authUser->id)->where('trx_id',$trx_id)->first();
+        return view('fronted.transaction_detail',compact('transaction'));
 
     }
+    ## transfer verify
     public function checkPassword(Request $request)
     {
         $user = auth()->guard('web')->user();

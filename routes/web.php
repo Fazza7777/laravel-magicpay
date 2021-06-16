@@ -24,6 +24,9 @@ Route::middleware('auth')->namespace('Fronted')->group(function(){
     Route::post('/transfer/confirm','PageController@transferConfirm')->name('transfer.confirm');
     Route::post('/transfer/complete','PageController@transferComplete')->name('transfer.complete');
 
+    Route::get('/transaction','PageController@transaction');
+    Route::get('/transaction/{trx_id}','PageController@transactionDetail');
+
     Route::get('/to-account-verify','PageController@toaccountVerify');
     Route::get('/transfer/confirm/check-password','PageController@checkPassword')->name('check.password');
 });

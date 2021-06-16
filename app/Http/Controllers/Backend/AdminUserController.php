@@ -46,7 +46,7 @@ class AdminUserController extends Controller
         $admin_user->phone = $request->phone;
         ##
         //   $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
-        if ($request->has('password')) {
+        if ($request->password) {
             $admin_user->password = Hash::make($request->password);
         }
         $admin_user->update();

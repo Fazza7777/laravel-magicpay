@@ -71,7 +71,7 @@ class UserController extends Controller
             $user->phone = $request->phone;
             ##
             //   $user->password = $request->password ? Hash::make($request->password) : $user->password;
-            if ($request->has('password')) {
+            if ($request->password) {
                 $user->password = Hash::make($request->password);
             }
             $user->update();

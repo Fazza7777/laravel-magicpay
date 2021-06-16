@@ -134,7 +134,7 @@ class PageController extends Controller
             $to_account_transaction->save();
 
             DB::commit();
-            return redirect('/')->with('success', 'Payment succeful');
+            return redirect('/transaction/'.$from_account_transaction->trx_id)->with('success', 'Payment succeful');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
             DB::rollBack();
@@ -146,7 +146,7 @@ class PageController extends Controller
         $authUser = auth()->guard('web')->user();
         $transactions = Transaction::with('user','source')
                         ->orderBy('created_at','desc')
-                        ->where('user_id', $authUser->id)->paginate(5);
+                        ->where('user_id', $authUser->id)->paginate(3);
         return view('fronted.transaction',compact('transactions'));
     }
     public function transactionDetail($trx_id)

@@ -6,10 +6,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-center mb-3">
-                    <img src="{{ asset('img/transaction.png') }}" alt="">
+                    <img src="{{ asset('img/checked.png') }}" alt="">
                 </div>
                 <h6 class="text-center mb-4 @if ($transaction->type == 1) text-success
                 @elseif($transaction->type == 2) text-danger @endif">
+                    @if ($transaction->type == 1)
+                        +
+                    @elseif ($transaction->type==2)
+                        -
+                    @endif
                     <b>{{ number_format($transaction->amount) }}</b> MMK
                 </h6>
                 <div class="d-flex justify-content-between">

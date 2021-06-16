@@ -104,6 +104,8 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     {{-- sweat alert 2 --}}
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- JScroll --}}
+    <script src="{{ asset('fronted/js/jscroll.js') }}"></script>
     @include('share.flash_message')
 
     <script>

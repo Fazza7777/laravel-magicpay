@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Fronted;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ChangePasswordRequest;
-use App\Http\Requests\TransferFormValidate;
 use App\User;
 use App\Wallet;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\TransferFormValidate;
+use App\Http\Requests\ChangePasswordRequest;
 
 class PageController extends Controller
 {
@@ -64,11 +65,11 @@ class PageController extends Controller
         if (!$check_account) {
             return redirect()->back()->withErrors(['to_phone' => 'ဖုန်းနံပါတ်သည် Magic Pay အကောင့်ဖွင့်ထားခြင်းမရှိသေးပါ။'])->withInput();
         }
-        if($auth_user->phone == $request->to_phone){
+        if ($auth_user->phone == $request->to_phone) {
             return redirect()->back()->withErrors(['to_phone' => 'သင့်အကောင့်ကို သင်ငွေပြန် လွှဲမရပါ။။'])->withInput();
         }
         $currentUserWalletAmount = Wallet::where('user_id', $auth_user->id)->first()->amount;
-          if ($request->amount > $currentUserWalletAmount) {
+        if ($request->amount > $currentUserWalletAmount) {
             return redirect()->back()->withErrors(['amount' => 'ငွေလက်ကျန်မလုံလောက်ပါ။'])->withInput();
         }
         // if ($request->amount < 1000) {
@@ -81,39 +82,49 @@ class PageController extends Controller
 
         return view('fronted.transfer_confirm', compact('from_account', 'to_account', 'amount', 'description'));
     }
-    public function transferComplete(TransferFormValidate $request){
+    public function transferComplete(TransferFormValidate $request)
+    {
         $auth_user = auth()->guard('web')->user();
         $to_account = User::where('phone', $request->to_phone)->first();
         if (!$to_account) {
             return redirect()->back()->withErrors(['to_phone' => 'ဖုန်းနံပါတ်မှားယွင်းနေပါသည်။'])->withInput();
         }
-        if($auth_user->phone == $request->to_phone){
+        if ($auth_user->phone == $request->to_phone) {
             return redirect()->back()->withErrors(['to_phone' => 'သင့်အကောင့်ကို သင်ငွေပြန် လွှဲမရပါ။။'])->withInput();
         }
         $from_account = $auth_user;
         $description = $request->description;
         $amount = $request->amount;
-        if(!$from_account->wallet || !$to_account->wallet){
-            return redirect()->back()->with('error','Something wrong ,check accounts!');
+        if (!$from_account->wallet || !$to_account->wallet) {
+            return redirect()->back()->with('error', 'Something wrong ,check accounts!');
         }
-         $from__account_wallet = $from_account->wallet;
-         $from__account_wallet->decrement('amount',$amount);
-         $from__account_wallet->update();
+        DB::beginTransaction();
+        try {
+            $from__account_wallet = $from_account->wallet;
+            $from__account_wallet->decrement('amount', $amount);
+            $from__account_wallet->update();
 
-         $to__account_wallet = $to_account->wallet;
-         $to__account_wallet->increment('amount',$amount);
-         $to__account_wallet->update();
-         return redirect('/')->with('success','Payment succeful');
+            $to__account_wallet = $to_account->wallet;
+            $to__account_wallet->increment('amount', $amount);
+            $to__account_wallet->update();
+            DB::commit();
+            return redirect('/')->with('success', 'Payment succeful');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error',$e->getMessage());
+            DB::rollBack();
+        }
+
     }
-    public function checkPassword(Request $request){
+    public function checkPassword(Request $request)
+    {
         $user = auth()->guard('web')->user();
-        if(empty($request->password)){
+        if (empty($request->password)) {
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Need! to enter your password!'
             ]);
         }
-        if(Hash::check($request->password, $user->password)){
+        if (Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'The password is correct'
@@ -135,7 +146,7 @@ class PageController extends Controller
                         'status' => 'success',
                         'data' => $user
                     ]);
-                }else{
+                } else {
                     return response()->json([
                         'status' => 'not_account',
                     ]);
@@ -151,5 +162,4 @@ class PageController extends Controller
 
         ]);
     }
-
 }

@@ -14,20 +14,24 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="card home-card mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{ asset('img/scan.png') }}" alt="">
-                        <span>Scan & Pay</span>
+                <a href="{{ url('/scan-and-pay') }}">
+                    <div class="card home-card mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{ asset('img/scan.png') }}" alt="">
+                            <span>Scan & Pay</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-6">
-                <div class="card home-card mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{ asset('img/qr.png') }}" alt="">
-                        <span>Receive QR</span>
+                <a href="{{ route('receive.qr') }}">
+                    <div class="card home-card mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{ asset('img/qr.png') }}" alt="">
+                            <span>Receive QR</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-12">
                 <div class="card mb-3 home-service">

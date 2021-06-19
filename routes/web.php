@@ -29,5 +29,11 @@ Route::middleware('auth')->namespace('Fronted')->group(function(){
 
     Route::get('/to-account-verify','PageController@toaccountVerify');
     Route::get('/transfer/confirm/check-password','PageController@checkPassword')->name('check.password');
+
+    Route::get('/receive-qr','PageController@receiveQr')->name('receive.qr');
+    Route::get('/scan-and-pay','PageController@scanAndPay');
+    Route::get('/scan-and-pay-form','PageController@scanAndPayForm');
+    Route::post('/scan-and-pay/confrim','PageController@scanAndPayConfirm')->name('scan_and_pay.confirm');
+    Route::post('/scan-and-pay/complete','PageController@scanAndPayComplete')->name('scan_and_pay.complete');
 });
 

@@ -60,7 +60,7 @@
         </div>
 
         <div class="botton-menu">
-            <a href="" class="scan-tab">
+            <a href="{{ url('/scan-and-pay') }}" class="scan-tab">
                 <div class="inside">
                     <i class="fas fa-qrcode"></i>
                 </div>
@@ -99,6 +99,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -110,6 +111,8 @@
     <script  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     @include('share.flash_message')
+
+    @yield('scripts')
 
     <script>
         $(document).ready(function() {
@@ -159,7 +162,6 @@
         @endif
 
     </script>
-    @yield('scripts')
 </body>
 
 </html>

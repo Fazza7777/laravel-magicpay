@@ -12,9 +12,9 @@
                             @csrf
 
                             <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror">
-                                @error('email')
+                                <label for="">Phone</label>
+                                <input type="text" name="phone" value="{{ old('phone') }}" class="form-control @error('phone') is-invalid @enderror">
+                                @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

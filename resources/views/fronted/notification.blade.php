@@ -1,5 +1,5 @@
 @extends('fronted.layouts.app')
-@section('title', 'Magic Pay')
+@section('title', 'Notification')
 @section('content')
 @section('home', 'active')
     <div class="home ">
@@ -7,18 +7,18 @@
             @foreach ($notifications as $notification)
 
                 <a href="{{ url("/notification/$notification->id") }}">
-                    <div class="card mb-3">
+                    <div class="card mb-3 px-2 py-1">
                         <div class="card-body p-2">
                            <h6>
-                               <i class="fas fa-bell @if(is_null($notification->reat_at)) text-danger @endif"></i>
+                               <i class="fas fa-bell mr-1 @if(is_null($notification->read_at)) text-danger @else text-success @endif"></i>
                                {{\Illuminate\Support\Str::limit($notification->data['title'],40)}}
                             </h6>
                            <p class="mb-1">
                             {{\Illuminate\Support\Str::limit($notification->data['message'],100)}}
                            </p>
-                           <p class="text-muted mb-1">
+                           <span class="text-muted">
                             {{ Carbon\Carbon::parse($notification->created_at)->format('Y-m-d h:i:s A')}}
-                           </p>
+                           </span>
                         </div>
                     </div>
                 </a>

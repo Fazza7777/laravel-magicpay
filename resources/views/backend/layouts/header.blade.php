@@ -32,7 +32,7 @@
         </span>
     </div>
     <div class="app-header__content">
-        
+
         <div class="app-header-right">
             <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
@@ -42,35 +42,32 @@
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                     class="p-0 btn">
                                     <img width="42" class="rounded-circle"
-                                        src="{{ asset('backend/images/avatars/1.jpg') }}" alt="">
+                                        src="https://ui-avatars.com/api/?name={{ auth()->guard('admin_user')->user()->name }}" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true"
                                     class="dropdown-menu dropdown-menu-right">
                                     <button type="button" tabindex="0" class="dropdown-item">User
                                         Account</button>
-                                    <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                                    <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                                    <button type="button" tabindex="0" class="dropdown-item">Actions</button>
+
                                     <div tabindex="-1" class="dropdown-divider"></div>
-                                    <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                    <a href="{{ route('admin.logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" tabindex="0" class="dropdown-item">Logout</a>
+                                     <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
                             <div class="widget-heading">
-                                Alina Mclourd
+                                {{ auth()->guard('admin_user')->user()->name }}
                             </div>
                             <div class="widget-subheading">
-                                VP People Manager
+                                {{ auth()->guard('admin_user')->user()->phone }}
                             </div>
+
                         </div>
-                        <div class="widget-content-right header-user-info ml-3">
-                            <button type="button"
-                                class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
-                                <i class="fa text-white fa-calendar pr-1 pl-1"></i>
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </div>

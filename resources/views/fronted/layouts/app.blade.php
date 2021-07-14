@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,74 +8,160 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('fronted/css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    @yield('extra_css')
 </head>
+
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
+        <div class="header-menu">
+            <div class="justify-content-center d-flex">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class=" col-2 text-center">
+                            @if (!request()->is('/'))
+                                <a href="#" class="back"><i class="fas fa-angle-left"></i></a>
                             @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                        </div>
+                        <div class=" col-8  text-center">
+                            <a href="">
+                                <h3>@yield('title')</h3>
+                            </a>
+                        </div>
+                        <div class=" col-2 text-center">
+                            <a href="">
+                                <i class="fa fa-bell"></i>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="content">
+            <div class=" justify-content-center d-flex">
+                <div class="col-md-8 col-12">
+                    @yield('content')
+
+                </div>
+            </div>
+        </div>
+
+        <div class="botton-menu">
+            <a href="{{ url('/scan-and-pay') }}" class="scan-tab">
+                <div class="inside">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+            </a>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-3 text-center">
+                            <a href="{{ route('home') }}" class="@yield('home')">
+                                <i class="fas fa-home"></i>
+                                <p class="mb-0"> Home</p>
+                            </a>
+                        </div>
+                        <div class="col-3 text-center ">
+                            <a href="{{ route('wallet') }}" class="@yield('wallet')">
+                                <i class="fas fa-wallet"></i>
+                                <p class="mb-0"> Wallet</p>
+                            </a>
+                        </div>
+                        <div class="col-3 text-center ">
+                            <a href="{{ url('/transaction') }}" class="@yield('transaction')">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p class="mb-0"> Transaction</p>
+                            </a>
+                        </div>
+                        <div class="col-3 text-center">
+                            <a href="{{ route('profile') }}" class="@yield('profile')">
+                                <i class="fas fa-user-circle"></i>
+                                <p class="mb-0"> Profile</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- sweat alert 2 --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- JScroll --}}
+    <script src="{{ asset('fronted/js/jscroll.js') }}"></script>
+    {{-- Date Range Picker --}}
+    <script  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    @include('share.flash_message')
+
+    @yield('scripts')
+
+    <script>
+        $(document).ready(function() {
+            let token = document.head.querySelector("meta[name='csrf-token']")
+            if (token) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF_TOKEN': token.content,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+
+                    }
+                })
+            }
+
+            // Back
+            $('.back').on('click', function(e) {
+                e.preventDefault();
+                window.history.go(-1)
+                // window.history.back();
+            })
+        })
+        //   Sweat Alert Toast
+        //   Sweat Alert
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        @if (session('create'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{ session('create') }}'
+            })
+        @endif
+        @if (session('update'))
+            Toast.fire({
+            icon: 'success',
+            title: '{{ session('update') }}'
+            })
+        @endif
+
+    </script>
 </body>
+
 </html>

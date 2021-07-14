@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -42,4 +43,30 @@ class LoginController extends Controller
     {
         return Auth::guard();
     }
+        /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'phone';
+    }
+     /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        ## //if you login success your account fields ip,user_agent update fill this
+        $user->ip = $request->ip();
+        $user->user_agent = $request->server('HTTP_USER_AGENT');
+        $user->login_at = date('Y-m-d H:i:s');
+        $user->update();
+        return redirect($this->redirectTo);
+    }
+
 }

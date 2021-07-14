@@ -2,23 +2,31 @@
 
 namespace App\Http\Controllers\Fronted;
 
-use App\Helpers\UUIDGenerate;
 use App\User;
 use App\Wallet;
+use App\Transaction;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\TransferFormValidate;
 use App\Http\Requests\ChangePasswordRequest;
-use App\Transaction;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 
 class PageController extends Controller
 {
     public function home()
     {
         $user = auth()->guard('web')->user();
+        $title = 'Title Testing';
+        $message = 'Alternatively, you may send notifications via the Notification facade. This is useful primarily when you need to send a notification to multiple notifiable entities such as a collection of users. To send notifications using the facade, pass all of the notifiable entities and the notification instance to the send method:';
+        $sourceable_id = 1;
+        $sourceable_type = User::class;
+        $web_link = url('profile');
+        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
         return view('fronted.home', compact('user'));
     }
     public function profile()

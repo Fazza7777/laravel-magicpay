@@ -16,9 +16,10 @@
                            <p class="mb-1">
                             {{\Illuminate\Support\Str::limit($notification->data['message'],100)}}
                            </p>
-                           <span class="text-muted">
-                            {{ Carbon\Carbon::parse($notification->created_at)->format('Y-m-d h:i:s A')}}
-                           </span>
+                           <small >
+                            {{-- {{ Carbon\Carbon::parse($notification->created_at)->format('Y-m-d h:i:s A')}} --}}
+                            {{ Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}
+                           </small>
                         </div>
                     </div>
                 </a>

@@ -21,12 +21,7 @@ class PageController extends Controller
     public function home()
     {
         $user = auth()->guard('web')->user();
-        $title = 'Title Testing';
-        $message = 'Alternatively, you may send notifications via the Notification facade. This is useful primarily when you need to send a notification to multiple notifiable entities such as a collection of users. To send notifications using the facade, pass all of the notifiable entities and the notification instance to the send method:';
-        $sourceable_id = 1;
-        $sourceable_type = User::class;
-        $web_link = url('profile');
-        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+
         return view('fronted.home', compact('user'));
     }
     public function profile()
@@ -47,6 +42,12 @@ class PageController extends Controller
         ## check old password
         if (Hash::check($old_password, $current_user->password)) {
             $user->update(['password' => Hash::make($new_password)]);
+            $title = 'Changed Password!';
+            $message = 'Your account password is successfully changed.';
+            $sourceable_id = $current_user->id;
+            $sourceable_type = User::class;
+            $web_link = url('profile');
+            Notification::send([$current_user], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
             return redirect()->route('profile')->with('info', 'Password change successfully !');
         } else {
             return redirect()->back()->withErrors(['old_password' => 'လက်ရှိစကား၀ှက်မှားနေပါသည်။'])->withInput();
@@ -142,7 +143,7 @@ class PageController extends Controller
             $to_account_transaction->save();
 
             DB::commit();
-            return redirect('/transaction/'.$from_account_transaction->trx_id)->with('success', 'Payment succeful');
+            return redirect('/transaction/' . $from_account_transaction->trx_id)->with('success', 'Payment succeful');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
             DB::rollBack();
@@ -152,45 +153,47 @@ class PageController extends Controller
     public function transaction(Request $request)
     {
         $authUser = auth()->guard('web')->user();
-        $transactions = Transaction::with('user','source')
-                        ->orderBy('created_at','desc')
-                        ->where('user_id', $authUser->id);
-        if($request->type){
-          $transactions = $transactions->where('type',$request->type);
+        $transactions = Transaction::with('user', 'source')
+            ->orderBy('created_at', 'desc')
+            ->where('user_id', $authUser->id);
+        if ($request->type) {
+            $transactions = $transactions->where('type', $request->type);
         }
-        if($request->date){
+        if ($request->date) {
             $transactions = $transactions->whereDate('created_at', $request->date);
-          }
+        }
         $transactions = $transactions->paginate(5);
-        return view('fronted.transaction',compact('transactions'));
+        return view('fronted.transaction', compact('transactions'));
     }
     public function transactionDetail($trx_id)
     {
         $authUser = auth()->guard('web')->user();
-        $transaction = Transaction::with('user','source')->where('user_id', $authUser->id)->where('trx_id',$trx_id)->first();
-        return view('fronted.transaction_detail',compact('transaction'));
-
+        $transaction = Transaction::with('user', 'source')->where('user_id', $authUser->id)->where('trx_id', $trx_id)->first();
+        return view('fronted.transaction_detail', compact('transaction'));
     }
     ##Receive QR
-    public function receiveQr(){
+    public function receiveQr()
+    {
         $authUser = auth()->guard('web')->user();
-        return view('fronted.receive_qr',compact('authUser'));
+        return view('fronted.receive_qr', compact('authUser'));
     }
-    public function scanAndPay(){
+    public function scanAndPay()
+    {
         return view('fronted.scan_and_pay');
     }
-    public function scanAndPayForm(Request $request){
+    public function scanAndPayForm(Request $request)
+    {
         $auth_user = auth()->guard('web')->user();
-        $to_account = User::where('phone',$request->to_phone)->first();
-        if($to_account){
-           $check_account = Wallet::where('user_id',$to_account->id)->first();
-           if($check_account){
-             return view('fronted.scan-and-pay-form',compact('auth_user','to_account'));
-           }else{
-            return redirect()->back()->with('error','Magic Pay Account does not exist!');
-           }
-        }else{
-            return redirect()->back()->with('error','Phone number is invalid');
+        $to_account = User::where('phone', $request->to_phone)->first();
+        if ($to_account) {
+            $check_account = Wallet::where('user_id', $to_account->id)->first();
+            if ($check_account) {
+                return view('fronted.scan-and-pay-form', compact('auth_user', 'to_account'));
+            } else {
+                return redirect()->back()->with('error', 'Magic Pay Account does not exist!');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Phone number is invalid');
         }
     }
 
@@ -274,7 +277,7 @@ class PageController extends Controller
             $to_account_transaction->save();
 
             DB::commit();
-            return redirect('/transaction/'.$from_account_transaction->trx_id)->with('success', 'Payment succeful');
+            return redirect('/transaction/' . $from_account_transaction->trx_id)->with('success', 'Payment succeful');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
             DB::rollBack();

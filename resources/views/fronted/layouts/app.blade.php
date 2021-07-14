@@ -40,7 +40,7 @@
                             </a>
                         </div>
                         <div class=" col-2 text-center">
-                            <a href="">
+                            <a href="{{ url('/notification') }}">
                                 <i class="fa fa-bell"></i>
 
                             </a>

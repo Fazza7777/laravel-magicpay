@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProfileResource;
+use App\Http\Resources\TransactionDetailResource;
 use App\Http\Resources\TransactionResource;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -31,10 +32,15 @@ class PageController extends Controller
             $transaction = $transaction->where('type', $request->type);
         }
         $transaction = $transaction->paginate(5);
+        // additional is include page no , next,prev url for pagination
         $data = TransactionResource::collection($transaction)->additional(['result'=>1,'message'=>'success']);
         return $data;
     }
-    public function transactionDetail($id)
+    public function transactionDetail($trx_id)
     {
+        $user = auth()->user();
+        $transaction = Transaction::with('user','source')->where('user_id',$user->id)->where('trx_id',$trx_id)->firstOrFail();
+        $data = new TransactionDetailResource($transaction);
+        return success('success',$data);
     }
 }

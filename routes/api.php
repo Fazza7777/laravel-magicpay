@@ -11,7 +11,7 @@ Route::namespace('Api')->group(function(){
       Route::middleware('auth:api')->group(function(){
         Route::get('/profile','PageController@profile');
         Route::get('/transaction','PageController@transaction');
-        Route::get('/transaction/id','PageController@transactionDetail');
+        Route::get('/transaction/{id}','PageController@transactionDetail');
 
 
         Route::post('/logout','AuthController@logout');

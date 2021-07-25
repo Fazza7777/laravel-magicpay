@@ -16,19 +16,20 @@ class TransactionResource extends JsonResource
     public function toArray($request)
     {
         $title = '';
+        $source = $this->source ? $this->source->name : '-';
         if($this->type == 1){
             $sign = '+';
-           $title = 'From '.$this->source->name;
+           $title = 'From '.$source;
         }else if($this->type==2){
             $sign = '-';
-            $title = 'To '.$this->source->name;
+            $title = 'To '.$source;
         }
         return [
             'trx_id' => $this->trx_id,
             'amount' => $sign.number_format($this->amount,2).' MMK' ,
             'type' => $this->type ,  // 1 => income , 2 => expense
             'title'=>$title,
-            'date'=> Carbon::parse($this->created_at)->format("Y-m-d H:i:s")
+            'date_time'=> Carbon::parse($this->created_at)->format("Y-m-d H:i:s")
         ];
     }
 }

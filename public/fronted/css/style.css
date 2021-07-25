@@ -243,15 +243,8 @@ font-weight: 900;
 /* ***********************************  Notification  ************************/
 .unread_noti_count{
     position: absolute !important;
-    width:18px;
-    height:18px;
-    background-color: red;
     border-radius: 50%;
-    color:white;
     font-size: 10px;
-    line-height: 18px;
-    text-align: center;
-    top:-8px !important;
-    right:10px !important;
-    /* padding: 3px; */
+    top:-5px !important;
+
 }

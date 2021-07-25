@@ -42,7 +42,7 @@
                         <div class=" col-2 text-center">
                             <a href="{{ url('/notification') }}">
                                 <i class="fa fa-bell"></i>
-                                <span class=" unread_noti_count">
+                                <span class="badge badge-danger badge-pill unread_noti_count" >
                                     {{ $unread_noti_count }}
                                 </span>
 

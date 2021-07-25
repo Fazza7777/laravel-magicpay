@@ -20,7 +20,8 @@ class ProfileResource extends JsonResource
             'email'=>$this->email,
             'account_number'=>$this->wallet ? $this->wallet->account_number : '',
             'balance'=>$this->wallet ? number_format($this->wallet->amount) : 0,
-            "profile"=> asset('img/profile.png')
+            "profile"=> asset('img/profile.png'),
+            "hash_value"=> $this->phone
         ];
     }
 }

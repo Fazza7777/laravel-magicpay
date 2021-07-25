@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['required', 'numeric', 'min:6', 'unique:users']
         ]);
-        
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -32,5 +33,18 @@ class AuthController extends Controller
 
         $token = $user->createToken('Magic Pay')->accessToken;
         return success('Successfully registered.',['token'=>$token]);
+    }
+    public function login(Request $request){
+        $request->validate([
+            'phone' => ['required', 'numeric', 'min:6'],
+            'password' => ['required', 'string', 'min:8']
+        ]);
+       if(Auth::attempt(['phone'=>$request->phone,'password'=>$request->password])){
+         $user = auth()->user();
+         $token = $user->createToken('Magic Pay')->accessToken;
+        return success('Successfully Login.',['token'=>$token]);
+       }
+       return fail('The credentials do not match our records.',null);
+
     }
 }

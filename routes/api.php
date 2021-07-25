@@ -22,6 +22,10 @@ Route::namespace('Api')->group(function () {
         Route::post('/transfer/confirm', 'PageController@transferConfirm');
         Route::post('/transfer/complete','PageController@transferComplete');
 
+        Route::get('/scan-and-pay-form','PageController@scanAndPayForm');
+        Route::post('/scan-and-pay/confrim','PageController@scanAndPayConfirm');
+        Route::post('/scan-and-pay/complete','PageController@scanAndPayComplete');
+
         Route::post('/logout', 'AuthController@logout');
     });
 });

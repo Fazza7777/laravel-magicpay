@@ -366,19 +366,12 @@ class PageController extends Controller
                         'data' => $user
                     ]);
                 } else {
-                    return response()->json([
-                        'status' => 'not_account',
-                    ]);
+                    return response()->json(['status' => 'not_account']);
                 }
             } else {
-                return response()->json([
-                    'status' => 'wrong',
-                ]);
+                return response()->json(['status' => 'wrong' ]);
             }
         }
-        return response()->json([
-            'status' => 'fail',
-
-        ]);
+        return response()->json(['status' => 'fail']);
     }
 }

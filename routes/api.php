@@ -20,6 +20,7 @@ Route::namespace('Api')->group(function () {
 
         Route::get('/to-account-verify', 'PageController@toAccountVerify');
         Route::post('/transfer/confirm', 'PageController@transferConfirm');
+        Route::post('/transfer/complete','PageController@transferComplete');
 
         Route::post('/logout', 'AuthController@logout');
     });

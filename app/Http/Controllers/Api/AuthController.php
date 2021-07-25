@@ -69,4 +69,9 @@ class AuthController extends Controller
         }
         return fail('The credentials do not match our records.', null);
     }
+    public function logout(){
+        $user = auth()->user();
+        $user->token()->revoke();
+        return success('Successfully logout!',null);
+    }
 }

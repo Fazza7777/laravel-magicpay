@@ -10,6 +10,8 @@ Route::namespace('Api')->group(function(){
 
       Route::middleware('auth:api')->group(function(){
         Route::get('/profile','PageController@profile');
+
+        Route::post('/logout','AuthController@logout');
       });
 
 });

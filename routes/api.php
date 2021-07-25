@@ -9,10 +9,12 @@ Route::namespace('Api')->group(function(){
       Route::post('/login','AuthController@login');
 
       Route::middleware('auth:api')->group(function(){
+
         Route::get('/profile','PageController@profile');
         Route::get('/transaction','PageController@transaction');
         Route::get('/transaction/{id}','PageController@transactionDetail');
-
+        Route::get('/notification','PageController@notification');
+        Route::get('/notification/{id}','PageController@notificationDetail');
 
         Route::post('/logout','AuthController@logout');
       });

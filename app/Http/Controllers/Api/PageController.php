@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TransactionDetailResource;
 use App\Http\Resources\TransactionResource;
@@ -42,5 +43,14 @@ class PageController extends Controller
         $transaction = Transaction::with('user','source')->where('user_id',$user->id)->where('trx_id',$trx_id)->firstOrFail();
         $data = new TransactionDetailResource($transaction);
         return success('success',$data);
+    }
+    public function notification(){
+        $user = auth()->user();
+        $notifications = $user->notifications()->paginate(5);
+        $data = NotificationResource::collection($notifications)->additional(['result'=>1,'message'=>'success']);
+        return $data;
+    }
+    public function notificationDetail(){
+
     }
 }

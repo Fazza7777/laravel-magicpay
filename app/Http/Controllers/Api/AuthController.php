@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use App\Wallet;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -30,21 +32,41 @@ class AuthController extends Controller
         $user->user_agent = $request->server('HTTP_USER_AGENT');
         $user->login_at = date('Y-m-d H:i:s');
         $user->save();
-
+        // if login wallent not exist create or exist not create
+        Wallet::firstOrCreate(
+            ['user_id' => $user->id], // check
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount' => 0
+            ]
+        );
         $token = $user->createToken('Magic Pay')->accessToken;
-        return success('Successfully registered.',['token'=>$token]);
+        return success('Successfully registered.', ['token' => $token]);
     }
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'phone' => ['required', 'numeric', 'min:6'],
             'password' => ['required', 'string', 'min:8']
         ]);
-       if(Auth::attempt(['phone'=>$request->phone,'password'=>$request->password])){
-         $user = auth()->user();
-         $token = $user->createToken('Magic Pay')->accessToken;
-        return success('Successfully Login.',['token'=>$token]);
-       }
-       return fail('The credentials do not match our records.',null);
+        if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
+            $user = auth()->user();
+            $user->ip = $request->ip();
+            $user->user_agent = $request->server('HTTP_USER_AGENT');
+            $user->login_at = date('Y-m-d H:i:s');
+            $user->update();
+            // if login wallent not exist create or exist not create
+            Wallet::firstOrCreate(
+                ['user_id' => $user->id], // check
+                [
+                    'account_number' => UUIDGenerate::accountNumber(),
+                    'amount' => 0
+                ]
+            );
 
+            $token = $user->createToken('Magic Pay')->accessToken;
+            return success('Successfully Login.', ['token' => $token]);
+        }
+        return fail('The credentials do not match our records.', null);
     }
 }

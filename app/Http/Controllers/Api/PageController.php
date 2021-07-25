@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\NotificationDetailResource;
-use App\Http\Resources\NotificationResource;
-use App\Http\Resources\ProfileResource;
-use App\Http\Resources\TransactionDetailResource;
-use App\Http\Resources\TransactionResource;
+use App\User;
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\ProfileResource;
+use App\Http\Resources\TransactionResource;
+use App\Http\Resources\NotificationResource;
+use App\Http\Resources\TransactionDetailResource;
+use App\Http\Resources\NotificationDetailResource;
 
 class PageController extends Controller
 {
@@ -57,5 +58,17 @@ class PageController extends Controller
         $notification->markAsRead();
         $data = new NotificationDetailResource($notification);
         return success('success',$data);
+    }
+    public function toAccountVerify(Request $request){
+        if($request->phone){
+           $authUser = auth()->user();
+           if($authUser->phone != $request->phone){
+               $user = User::where('phone',$request->phone)->first();
+               if($user){
+                   return success('success',['name'=>$user->name,'phone'=>$user->phone]);
+               }
+           }
+        }
+        return fail('Invalid Data',null);
     }
 }

@@ -15,6 +15,7 @@ Route::namespace('Api')->group(function(){
         Route::get('/transaction/{id}','PageController@transactionDetail');
         Route::get('/notification','PageController@notification');
         Route::get('/notification/{id}','PageController@notificationDetail');
+        Route::get('/to-account-verify','PageController@toAccountVerify');
 
         Route::post('/logout','AuthController@logout');
       });

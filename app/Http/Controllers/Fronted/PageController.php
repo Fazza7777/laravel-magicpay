@@ -47,7 +47,11 @@ class PageController extends Controller
             $sourceable_id = $current_user->id;
             $sourceable_type = User::class;
             $web_link = url('profile');
-            Notification::send([$current_user], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            $deep_link = [
+                'target' => 'profile',
+                'parameter' =>null
+            ];
+            Notification::send([$current_user], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link,$deep_link));
             return redirect()->route('profile')->with('info', 'Password change successfully !');
         } else {
             return redirect()->back()->withErrors(['old_password' => 'လက်ရှိစကား၀ှက်မှားနေပါသည်။'])->withInput();
@@ -149,14 +153,22 @@ class PageController extends Controller
             $sourceable_id = $from_account_transaction->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $from_account_transaction->trx_id);
-            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' =>['trx_id'=>$from_account_transaction->trx_id]
+            ];
+            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link,$deep_link));
             // To Noti
             $title = 'E-money Received!';
             $message = 'Your wallet received ' . number_format($amount) . ' MMK from ' . $from_account->name . ' (' . $from_account->phone . ')';
             $sourceable_id = $to_account_transaction->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $to_account_transaction->trx_id);
-            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' =>['trx_id'=>$to_account_transaction->trx_id]
+            ];
+            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link,$deep_link));
 
             return redirect('/transaction/' . $from_account_transaction->trx_id)->with('success', 'Payment succeful');
         } catch (\Exception $e) {
@@ -297,14 +309,22 @@ class PageController extends Controller
             $sourceable_id = $from_account_transaction->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $from_account_transaction->trx_id);
-            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' =>['trx_id'=>$from_account_transaction->trx_id]
+            ];
+            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link,$deep_link));
             // To Noti
             $title = 'E-money Received!';
             $message = 'Your wallet received ' . number_format($amount) . ' MMK from ' . $from_account->name . ' (' . $from_account->phone . ')';
             $sourceable_id = $to_account_transaction->id;
             $sourceable_type = Transaction::class;
             $web_link = url('/transaction/' . $to_account_transaction->trx_id);
-            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            $deep_link = [
+                'target' => 'transaction_detail',
+                'parameter' =>['trx_id'=>$to_account_transaction->trx_id]
+            ];
+            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link,$deep_link));
 
             DB::commit();
             return redirect('/transaction/' . $from_account_transaction->trx_id)->with('success', 'Payment succeful');

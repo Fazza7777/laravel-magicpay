@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotificationResource extends JsonResource
+class NotificationDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,11 +17,10 @@ class NotificationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=> $this->id,
-            'title'=> Str::limit($this->data['title'], 40, '...'),
-            'message'=> Str::limit($this->data['message'],100, '...'),
+            'title'=> $this->data['title'],
+            'message'=> $this->data['message'],
             'date_time'=>Carbon::parse($this->created_at)->format("Y-m-d h:i:s A"),
-            "read"=> !is_null($this->read_at) ? 1 : 0
+            'deep_link'=>$this->data['deep_link']
         ];
     }
 }

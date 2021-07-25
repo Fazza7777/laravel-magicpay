@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationDetailResource;
 use App\Http\Resources\NotificationResource;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\TransactionDetailResource;
@@ -50,7 +51,11 @@ class PageController extends Controller
         $data = NotificationResource::collection($notifications)->additional(['result'=>1,'message'=>'success']);
         return $data;
     }
-    public function notificationDetail(){
-
+    public function notificationDetail($noti_id){
+        $user = auth()->user();
+        $notification = $user->notifications()->where('id',$noti_id)->firstOrFail();
+        $notification->markAsRead();
+        $data = new NotificationDetailResource($notification);
+        return success('success',$data);
     }
 }

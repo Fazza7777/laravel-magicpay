@@ -11,8 +11,8 @@ use App\Helpers\UUIDGenerate;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
-
+use Exception;
+use Illuminate\Database\Query\Expression;
 
 class WalletController extends Controller
 {
@@ -103,6 +103,52 @@ class WalletController extends Controller
     }
     public function reduceAmount()
     {
-        return view('backend.wallet.reduce_amount');
+        $users = User::orderBy('name')->get();
+
+        return view('backend.wallet.reduce_amount',compact('users'));
+    }
+    public function reduceAmountStore(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'amount' => 'required|integer',
+        ], [
+            'user_id.required' => 'Please choose user!'
+        ]);
+
+        if($request->amount < 1){
+            return redirect()->back()->withErrors(['amount' => 'ငွေပမာဏ အနည်းဆုံး 1 ကျပ် ဖြည့်ရန်လိုအပ်ပါသည်။'])->withInput();
+        }
+
+        $description = $request->description;
+        $amount = $request->amount;
+        $ref_no = UUIDGenerate::refNumber();
+        DB::beginTransaction();
+        try {
+            $to_account = User::with('wallet')->where('id', $request->user_id)->firstOrFail();
+            $to__account_wallet = $to_account->wallet;
+
+            if($amount > $to__account_wallet->amount){
+                throw new Exception('The amount is greather than in wallet balence.');
+            }
+            $to__account_wallet->decrement('amount', $amount);
+            $to__account_wallet->update();
+
+            $to_account_transaction = new Transaction();
+            $to_account_transaction->ref_no = $ref_no;
+            $to_account_transaction->trx_id = UUIDGenerate::trxId();
+            $to_account_transaction->user_id = $to_account->id;
+            $to_account_transaction->type = 2;
+            $to_account_transaction->amount = $amount;
+            $to_account_transaction->source_id = 0;
+            $to_account_transaction->description = $description;
+            $to_account_transaction->save();
+
+            DB::commit();
+            return redirect('/admin/wallet')->with('success', 'Reduce amount succeful');
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+            DB::rollBack();
+        }
     }
 }

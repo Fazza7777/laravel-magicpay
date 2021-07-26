@@ -18,7 +18,36 @@
     <div class="content py-3">
         <div class="card">
             <div class="card-body">
-
+                <form action="{{ url('admin/wallet/reduce/amount/store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="">User</label>
+                        <select name="user_id" class="user form-control @error('user_id')is-invalid @enderror">
+                            <option vlue=""></option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }} - {{ $user->phone }}</option>
+                            @endforeach
+                        </select>
+                        @error('user_id')
+                            <small class="text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="">Amount</label>
+                        <input type="number" name="amount" class="form-control @error('user_id') is-invalid @enderror">
+                        @error('amount')
+                            <small class="text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea name="description" class="form-control"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-outline-secondary back-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary ml-3">Confirm</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -26,43 +55,11 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            var dataTable = $('.Datatable').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": "/admin/wallet/datatable/ssd",
-                columns: [{
-                        data: "account_number",
-                        name: "account_number",
-                    }, {
-                        data: "account_person",
-                        name: "account_person",
-
-                    }, {
-                        data: "amount",
-                        name: "amount"
-                    },
-
-                    {
-                        data: "created_at",
-                        name: "created_at"
-                    },
-                    {
-                        data: "updated_at",
-                        name: "updated_at"
-                    },
-
-                ],
-                // order
-                order: [
-                    [4, "desc"]
-                ],
-                columnDefs: [{
-                    targets: [0, 1, 2, 3], // this is define index
-                    sortable: false,
-                }]
-
+            $('.user').select2({
+                theme: 'bootstrap4',
+                placeholder: "-- Please Choose User --",
+                allowClear: true
             });
-
         });
     </script>
 @stop

@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\User;
 use App\Wallet;
 use Carbon\Carbon;
+use App\Transaction;
+use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+
+
 
 class WalletController extends Controller
 {
@@ -40,7 +47,7 @@ class WalletController extends Controller
             })
             ## Thousand sperator
             ->editColumn('amount', function ($each) {
-                return number_format($each->amount,2);
+                return number_format($each->amount, 2);
             })
             ->editColumn('created_at', function ($each) {
                 return Carbon::parse($each->created_at)->format('Y-m-d H:m:s');
@@ -50,5 +57,52 @@ class WalletController extends Controller
             })
             ->rawColumns(['account_person'])
             ->make(true);
+    }
+    public function addAmount()
+    {
+        $users = User::orderBy('name')->get();
+        return view('backend.wallet.add_amount', compact('users'));
+    }
+    public function addAmountStore(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'amount' => 'required|integer',
+        ], [
+            'user_id.required' => 'Please choose user!'
+        ]);
+        if($request->amount < 1000){
+            return redirect()->back()->withErrors(['amount' => 'ငွေပမာဏ အနည်းဆုံး 1000 ကျပ် ဖြည့်ရန်လိုအပ်ပါသည်။'])->withInput();
+        }
+        $description = $request->description;
+        $amount = $request->amount;
+        $ref_no = UUIDGenerate::refNumber();
+        DB::beginTransaction();
+        try {
+            $to_account = User::with('wallet')->where('id', $request->user_id)->firstOrFail();
+            $to__account_wallet = $to_account->wallet;
+            $to__account_wallet->increment('amount', $amount);
+            $to__account_wallet->update();
+
+            $to_account_transaction = new Transaction();
+            $to_account_transaction->ref_no = $ref_no;
+            $to_account_transaction->trx_id = UUIDGenerate::trxId();
+            $to_account_transaction->user_id = $to_account->id;
+            $to_account_transaction->type = 1;
+            $to_account_transaction->amount = $amount;
+            $to_account_transaction->source_id = 0;
+            $to_account_transaction->description = $description;
+            $to_account_transaction->save();
+
+            DB::commit();
+            return redirect('/admin/wallet')->with('success', 'Add amount succeful');
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+            DB::rollBack();
+        }
+    }
+    public function reduceAmount()
+    {
+        return view('backend.wallet.reduce_amount');
     }
 }

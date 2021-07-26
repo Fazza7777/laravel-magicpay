@@ -6,35 +6,19 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-users icon-gradient bg-mean-fruit">
+                    <i class="pe-7s-wallet icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div> Users Wallet </div>
+                <div> Reduce Amount </div>
 
             </div>
         </div>
     </div>
-    <div class="pt-3">
-       <a href="{{ url('admin/wallet/add/amount') }}" class="btn btn-success"><i class="fa fa-plus-circle"></i> Add Amount</a>
-       <a href="{{ url('admin/wallet/reduce/amount') }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i> Reduce Amount</a>
-    </div>
+
     <div class="content py-3">
         <div class="card">
             <div class="card-body">
-                <table class="table  Datatable table-bordered" style="width:100%">
-                    <thead>
-                        <tr class="bg-light">
-                            <th>Account Number</th>
-                            <th>Account Person</th>
-                            <th>Amount(MMK)</th>
-                            <th>Created_At</th>
-                            <th>Update_At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
